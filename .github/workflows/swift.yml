@@ -1,0 +1,39 @@
+# This workflow will build a Swift project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-swift
+
+name: Swift
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Setup Python3
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9"
+        
+    - name: Env Download
+      uses: actions/checkout@v3
+      with:
+        repository: "Hash7ag/mock-openweathermap-api"
+        path: ./mock-openweathermap-api
+        
+    - name: Env Setup
+      run: |
+        python3 -m pip install --upgrade pip
+        python3 -m pip install --upgrade flask
+        cd ./mock-openweathermap-api
+        nohup ./run.sh > /dev/null 2>&1 &
+        
+    - uses: actions/checkout@v3
+    
+    - name: Build
+      run: swift build -v --package-path ./MyLibrary
+      
+    - name: Run tests
+      run: swift test -v --package-path ./MyLibrary
