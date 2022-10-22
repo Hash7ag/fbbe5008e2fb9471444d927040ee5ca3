@@ -6,7 +6,7 @@ public protocol WeatherService {
 
 enum Endpoints: String {
     case openWeathermap = "https://api.openweathermap.org"
-    case mockService = "https://raw.githubusercontent.com/Hash7ag/mock-openweathermap-api/main"
+    case mockService = "http://127.0.0.1:8080"
 }
 
 class WeatherServiceImpl: WeatherService {
